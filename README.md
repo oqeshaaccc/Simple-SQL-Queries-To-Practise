@@ -16,7 +16,9 @@ more stars to their rating.
 9. Write a query in SQL to find the list of all those movies with year which
 include the words Boogie Nights.
 
-***********************************Solution*************************************
+************************************************************************
+Solution
+************************************************************************
 select DISTINCT(mov_name), mov_year from Movies;
 
 SELECT mov_year from Movies where mov_name="American Beauty";
