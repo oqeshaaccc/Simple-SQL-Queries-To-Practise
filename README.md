@@ -44,8 +44,8 @@ select * from Movies where  mov_name  like '%Boogie Nights%';
 #lap-sql-range-set-order-group.txt has some more complex queries on Employees and Departments tables
 
 
-********************************* Queries Using functions ************************************
------------------------------ Exersise 1 ---------------------------------------
+********************************* Queries Using functions ************************************;
+----------------------------- Exersise 1 ---------------------------------------;
 -- Query A1: Enter a function that calculates the total cost of all animal rescues in the PETRESCUE table.
 select sum(COST) from PETRESCUE;
 
@@ -61,7 +61,7 @@ select avg(COST) from PETRESCUE;
 -- Query A5: Enter a function that displays the average cost of rescuing a dog.
 select avg(COST) from PETRESCUE where lower(ANIMAL) = 'dog';
 
------------------------------ Exersise 2 ---------------------------------------
+----------------------------- Exersise 2 ---------------------------------------;
 -- Query B1: Enter a function that displays the rounded cost of each rescue.
 select round(COST) from PETRESCUE;
 
@@ -77,7 +77,7 @@ select distinct(upper(ANIMAL)) from PETRESCUE;
 -- Query B5: Enter a query that displays all the columns from the PETRESCUE table, where the animal(s) rescued are cats. Use cat in lower case in the query.
 select * from PETRESCUE where lower(ANIMAL) = 'cat';
 
------------------------------ Exersise 3 ---------------------------------------
+----------------------------- Exersise 3 ---------------------------------------;
 -- Query C1: Enter a function that displays the day of the month when cats have been rescued.
 select DAY(RESCUEDATE) from PETRESCUE;
 
