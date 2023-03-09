@@ -38,5 +38,7 @@ select * from Movies where id= 905 or id= 907 or id=917;
 
 select * from Movies where  mov_name  like '%Boogie Nights%';
 
+*****************************************************************************************************
+
 
 #lap-sql-range-set-order-group.txt has some more complex queries on Employees and Departments tables
