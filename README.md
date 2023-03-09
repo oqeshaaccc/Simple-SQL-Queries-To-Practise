@@ -152,6 +152,53 @@ SQL-Query-Exersise
     select (CURRENT_DATE - RESCUEDATE) as NUMBER_OF_DAYS_SINCE_RESCUED from PETRESCUE;
 
     select * from petrescue;
+    
+    ********************************************************************************************
+    
+    ------------------- Accessing Multiple Tables with Sub-Queries ------------------
+    
+    
+        -- Retrieve only the EMPLOYEES records that correspond to jobs in the JOBS table.
+        select * from EMPLOYEES from where job_id in (select JOB_IDENT from jobs);
+
+        -- Retrieve only the list of employees whose JOB_TITLE is Jr. Designer.
+        select EMP_ID from EMPLOYEES Where JOB_ID in (select JOB_IDENT from JOBS where JOB_TITLE = 'Jr. Designer');
+
+        -- Retrieve JOB information and who earn more than $70,000.
+        SELECT JOB_TITLE, MIN_SALARY,MAX_SALARY,JOB_IDENT from jobs where JOB_IDENT IN(select JOB_ID from employees where SALARY > 70000);
+        -- Retrieve JOB information and who earn more than $70,000. --- Another way of thinking of it ---
+        SELECT EMP_ID , SALARY , JOB_ID , JOB_TITLE from Employees , jobs where JOB_ID in(SELECT JOB_ID from Employees where Salary > 70000);
+
+        -- Retrieve JOB information and whose birth year is after 1976.
+        SELECT * FROM JOBS WHERE JOB_IDENT IN (SELECT JOB_ID FROM EMPLOYEES WHERE YEAR(B_DATE)> 1976);
+
+        --Retrieve JOB information for female employees whose birth year is after 1976.
+        SELECT * FROM JOBS WHERE JOB_IDENT IN (SELECT JOB_ID FROM EMPLOYEES WHERE SEX = 'F');
+
+        ------------------- Accessing Multiple Tables with Implicit Joins ------------------
+
+
+        -- Perform an implicit cartesian/cross join between EMPLOYEES and JOBS tables.
+        SELECT * FROM EMPLOYEES, JOBS;
+
+        -- Retrieve only the EMPLOYEES records that correspond to jobs in the JOBS table.
+        SELECT * FROM EMPLOYEES , JOBS WHERE JOB_ID = JOB_IDENT;
+        SELECT * FROM EMPLOYEES , JOBS WHERE EMPLOYEES.JOB_ID = JOBS.JOB_IDENT; -- SAMEA
+
+        -- Redo the previous query, using shorter aliases for table names.
+        SELECT * FROM EMPLOYEES E, JOBS J WHERE E.JOB_ID = J.JOB_IDENT; 
+
+        -- Redo the previous query, but retrieve only the Employee ID, Employee Name and Job Title.
+        SELECT EMP_ID, F_NAME, L_NAME, JOB_TITLE FROM EMPLOYEES E, JOBS J WHERE E.JOB_ID = J.JOB_IDENT; 
+
+        -- Redo the previous query, but specify the fully qualified column names with aliases in the SELECT clause.
+        SELECT E.EMP_ID,E.F_NAME,E.L_NAME, J.JOB_TITLE from EMPLOYEES E, JOBS J where E.JOB_ID = J.JOB_IDENT;
+
+
+
+
+        SELECT * FROM EMPLOYEES;
+
 
 
 
