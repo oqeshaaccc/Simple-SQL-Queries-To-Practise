@@ -20,23 +20,25 @@ include the words Boogie Nights.
 ************************************************************************
 Solution
 ************************************************************************
-select DISTINCT(mov_name), mov_year from Movies;
 
-SELECT mov_year from Movies where mov_name="American Beauty";
+        select DISTINCT(mov_name), mov_year from Movies;
 
-SELECT * from Movies where mov_year < 1999;
+        SELECT mov_year from Movies where mov_name="American Beauty";
 
-SELECT * from Movies where mov_year < 1998;
+        SELECT * from Movies where mov_year < 1999;
 
-SELECT mov_name, rev_name from Movies;
+        SELECT * from Movies where mov_year < 1998;
 
-SELECT rev_name FROM Movies where rev_stars >=7;
+        SELECT mov_name, rev_name from Movies;
 
-SELECT * from Movies Where num_o_ratings is null;
+        SELECT rev_name FROM Movies where rev_stars >=7;
 
-select * from Movies where id= 905 or id= 907 or id=917;
+        SELECT * from Movies Where num_o_ratings is null;
 
-select * from Movies where  mov_name  like '%Boogie Nights%';
+        select * from Movies where id= 905 or id= 907 or id=917;
+
+        select * from Movies where  mov_name  like '%Boogie Nights%';
+
 
 *****************************************************************************************************
 
