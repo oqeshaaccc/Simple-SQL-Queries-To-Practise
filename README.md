@@ -45,7 +45,8 @@ select * from Movies where  mov_name  like '%Boogie Nights%';
 
 
 ****************************************************************************************************
------------------------------ Exersise 1 Queries Using functions ---------------------------------------;
+----------------------------- Exersise 1 Queries Using functions ---------------------------------------
+
     -- Query A1: Enter a function that calculates the total cost of all animal rescues in the PETRESCUE table.
     select sum(COST) from PETRESCUE;
 
@@ -61,7 +62,8 @@ select * from Movies where  mov_name  like '%Boogie Nights%';
     -- Query A5: Enter a function that displays the average cost of rescuing a dog.
     select avg(COST) from PETRESCUE where lower(ANIMAL) = 'dog';
 
------------------------------ Exersise 2 Queries Using functions ---------------------------------------;
+----------------------------- Exersise 2 Queries Using functions ---------------------------------------
+
     -- Query B1: Enter a function that displays the rounded cost of each rescue.
     select round(COST) from PETRESCUE;
 
@@ -77,7 +79,8 @@ select * from Movies where  mov_name  like '%Boogie Nights%';
     -- Query B5: Enter a query that displays all the columns from the PETRESCUE table, where the animal(s) rescued are cats. Use cat in lower case in the query.
     select * from PETRESCUE where lower(ANIMAL) = 'cat';
 
------------------------------ Exersise 3 Queries Using functions ---------------------------------------;
+----------------------------- Exersise 3 Queries Using functions ---------------------------------------
+
     -- Query C1: Enter a function that displays the day of the month when cats have been rescued.
     select DAY(RESCUEDATE) from PETRESCUE;
 
