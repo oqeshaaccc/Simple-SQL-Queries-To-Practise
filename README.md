@@ -17,7 +17,6 @@ more stars to their rating.
 9. Write a query in SQL to find the list of all those movies with year which
 include the words Boogie Nights.
 
-************************************************************************
 Solution
 ************************************************************************
 
