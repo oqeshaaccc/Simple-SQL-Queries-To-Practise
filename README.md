@@ -264,6 +264,76 @@ SQL-Query-Exersise
         SELECT DISTINCT(upper(IndustryVertical)) FROM indian_startup_funding;
 
 
+*********************************************************************************************************************************
+More Complex Queries
+*********************************************************************************************************************************
+        --1-Select the names and job start dates of all employees who work for the department number 5.
+        select E.F_NAME,E.L_NAME, JH.START_DATE 
+        from EMPLOYEES as E 
+        INNER JOIN JOB_HISTORY as JH on E.EMP_ID=JH.EMPL_ID 
+        where E.DEP_ID ='5';	
+
+
+        --2-Select the names, job start dates, and job titles of all employees who work for the department number 5.
+        select E.F_NAME,E.L_NAME, JH.START_DATE, J.JOB_TITLE 
+        from EMPLOYEES as E 
+        INNER JOIN JOB_HISTORY as JH on E.EMP_ID=JH.EMPL_ID 
+        INNER JOIN JOBS as J on E.JOB_ID=J.JOB_IDENT
+        where E.DEP_ID ='5';
+
+
+        --3-Perform a Left Outer Join on the EMPLOYEES and DEPARTMENT tables and select employee id, last name, department id and department name for all employees.
+        select E.EMP_ID,E.L_NAME,E.DEP_ID,D.DEP_NAME
+        from EMPLOYEES AS E 
+        LEFT OUTER JOIN DEPARTMENTS AS D ON E.DEP_ID=D.DEPT_ID_DEP;
+
+
+        --4-Re-write the previous query but limit the result set to include only the rows for employees born before 1980.
+        select E.EMP_ID,E.L_NAME,E.DEP_ID,D.DEP_NAME
+        from EMPLOYEES AS E 
+        LEFT OUTER JOIN DEPARTMENTS AS D ON E.DEP_ID=D.DEPT_ID_DEP 
+        where YEAR(E.B_DATE) < 1980;
+
+        --5-Re-write the previous query but have the result set include all the employees but department names for only the employees who were born before 1980.
+        select E.EMP_ID,E.L_NAME,E.DEP_ID,D.DEP_NAME
+        from EMPLOYEES AS E 
+        LEFT OUTER JOIN DEPARTMENTS AS D ON E.DEP_ID=D.DEPT_ID_DEP 
+        AND YEAR(E.B_DATE) < 1980;
+
+        --6-Perform a Full Join on the EMPLOYEES and DEPARTMENT tables and select the First name, Last name and Department name of all employees.
+        select E.F_NAME,E.L_NAME,D.DEP_NAME
+        from EMPLOYEES AS E 
+        FULL OUTER JOIN DEPARTMENTS AS D ON E.DEP_ID=D.DEPT_ID_DEP;
+
+        --7-Re-write the previous query but have the result set include all employee names but department id and department names only for male employees.
+        select E.F_NAME,E.L_NAME,D.DEPT_ID_DEP, D.DEP_NAME
+        from EMPLOYEES AS E 
+        FULL OUTER JOIN DEPARTMENTS AS D ON E.DEP_ID=D.DEPT_ID_DEP AND E.SEX = 'M';
+        ________________________________________________________________________________________________
+
+        #List the case number, type of crime and community area for all crimes in community area number 18.
+        %sql select CD.CASE_NUMBER,CD.PRIMARY_TYPE, CD.COMMUNITY_AREA_NUMBER \
+        from CHICAGO_CRIME_DATA as CD \
+        INNER JOIN CENSUS_DATA as CN on CD.COMMUNITY_AREA_NUMBER=CN.COMMUNITY_AREA_NUMBER \
+        where CD.COMMUNITY_AREA_NUMBER =18;
+        _____________________________________________________________________________________________
+        #List all crimes that took place at a school. Include case number, crime type and community name.
+        %sql select CD.CASE_NUMBER,CD.PRIMARY_TYPE, CN.COMMUNITY_AREA_NAME \
+        from CHICAGO_CRIME_DATA as CD \
+        LEFT OUTER JOIN CENSUS_DATA as CN on CD.COMMUNITY_AREA_NUMBER=CN.COMMUNITY_AREA_NUMBER \
+        where lower(CD.LOCATION_DESCRIPTION) like '%school%';
+
+        _____________________________________________________________________________________________
+        #For the communities of Oakland, Armour Square, Edgewater and CHICAGO list the associated community_area_numbers and the case_numbers.
+        %sql select CD.CASE_NUMBER,CD.PRIMARY_TYPE, CN.COMMUNITY_AREA_NAME \
+        from CHICAGO_CRIME_DATA as CD \
+        FULL OUTER JOIN CENSUS_DATA as CN on CD.COMMUNITY_AREA_NUMBER=CN.COMMUNITY_AREA_NUMBER \
+        where lower(CN.COMMUNITY_AREA_NAME) in ('oakland', 'armour square', 'edgewater', 'chicago');
+
+
+
+
+
 
 
 
