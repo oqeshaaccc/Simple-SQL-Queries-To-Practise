@@ -1,0 +1,201 @@
+learning sql using sqlite
+
+-create a table
+create table my_artwork
+(
+artwork_id int not null Primary key,
+artwork_title varchar(265) not null,
+artwork_price Real not null,
+artwork_image blob
+)
+____________________________________
+alter table - change the table name
+alter table my_artwork rename to artwork 
+
+_____________________________________
+
+alter table - adding a new column
+alter table artwork
+add column artwork_sold_status char(1)
+
+___________________________________
+
+alter table - renaming a column
+alter table artwork
+rename column artwork_creation_date to artwork_birth_date
+
+alter table and drop a column
+alter table artwork
+drop column artwork_sold_status
+____________________________________
+alter table change datatype
+
+You can not use the ALTER TABLE statement to modify a column in SQLite. Instead you will need to rename the table, create a new table, and copy the data into the new table.
+
+but you can do it with postgresql 
+ALTER TABLE table_name
+ALTER COLUMN column_name [SET DATA] TYPE new_data_type;
+
+alter table artwork 
+add column artwork_belongs_to char(256)
+______________________________
+drop table
+drop table artwork
+
+
+drop the data of a table
+trunkate table artwork Immediate; 
+
+____________________________________
+insert into a table
+insert into artwork (artwork_id, artwork_title, artwork_price, artwork_sold_status)
+values(1,  'the two parrots', 80.00, 'n')
+
+insert into artwork (artwork_id, artwork_title, artwork_price, artwork_birth_date,artwork_sold_status)
+            values(3, 'The tow fishes', 90, '12101398','n')
+
+
+inserting more than one value in one statment
+
+insert into artwork (artwork_id, artwork_title, artwork_price, artwork_birth_date,artwork_sold_status)
+            values(1, 'The one horse', 90, '12101398','y'),
+            (4, 'The two horses', 90, '12101398','y')
+____________________________________
+update column's value
+update artwork set artwork_id = 2 where artwork_id=1
+update artwork set artwork_belongs_to = 'Ohood'
+_______________________________________
+
+
+_______________________________________
+
+select * from artwork
+
+_______________________________________
+
+Using And
+select * from artwork where artwork_price > 30 and artwork_price < 50
+
+Using Or
+select * from artwork where artwork_sold_status ='y' or artwork_sold_status ='n'
+
+Using Like
+//returns the artwork that ends with rots nomatter whats before
+select * from artwork where artwork_title like '%rots'
+
+//returns the artwork that starts with the nomatter whats after
+select * from artwork where artwork_title like 'the%'
+
+//returns the arwork that has t in the 4th position (____ = _ _ _ _)
+select * from artwork where artwork_title like '____t%'
+
+//returns the artwork that starts with t and only has 3 characters
+select * from artwork where artwork_title like 't__'
+
+
+//Using in
+select * from artwork where artwork_price in (30,80)
+select * from artwork where artwork_sold_status in ('n','y')
+
+//using between
+select * from artwork where artwork_price between 30 and 100
+
+//Using Order by (for sorting) - default is asc
+select * from artwork order by artwork_title
+select * from artwork order by artwork_title desc
+
+//null or not null
+select * from artwork where artwork_birth_date not null
+
+//using group by 
+select count(artwork_sold_status), artwork_sold_status from artwork group by artwork_sold_status
+
+//using having
+we use having instead of where clause (we use it with group by) and it has to be count(the grouped by thinge)
+select distinct (artwork_belongs_to) , count (artwork_belongs_to) from artwork group by artwork_belongs_to  having count(artwork_belongs_to) >2
+order by(artwork_belongs_to) desc
+hint--- the order by has to  be the having not before just like its after the where not before it
+
+
+//Using distinct
+select distinct (artwork_belongs_to) , count (artwork_belongs_to) from artwork order by artwork_belongs_to group by artwork_belongs_to
+select distinct (artwork_belongs_to) , count (artwork_belongs_to) from artwork group by artwork_belongs_to order by artwork_belongs_to desc
+
+//using limit
+select * from artwork limit 3
+
+//using Aggregate functions
+Work with numbers/ min, max, avg, sum
+select artwork_title, min(artwork_price) from artwork
+select artwork_title, max(artwork_price) from artwork
+select avg(artwork_price) from artwork
+select sum(artwork_price) as 'Total sold' from artwork where artwork_sold_status = 'y'
+select sum(artwork_price) as 'Not sold' from artwork where artwork_sold_status = 'n'
+
+work with string/ round,length,ucase,lcase
+select artwork_title, length(Artwork_title) as "Length of Title" from artwork
+select artwork_title, upper(Artwork_title) as "Length of Title" from artwork
+select * from artwork where lower(artwork_title) like "%fishes"
+
+//date and time functions
+SELECT datetime(artwork_birth_date, 'unixepoch') from artwork
+
+
+//Nested sql query
+select * from artwork where artwork_price > (select avg(artwork_price) from artwork)
+
+//And the now the complex part... i mean the easy part :)
+To learn this we need more than one table soooo, im creating two other tables, art_customers and artwork_sales
+
+create table artwork_customers(
+                customer_id int primary key not null,
+                customer_email varchar(265) ,
+                customer_city varchar(265),
+                customer_country varchar(265),
+                customer_age int
+                )
+                
+create table sales(
+                sale_id int primary key not null,
+                customer_id int ,
+                artwork_id int,
+                sale_took_place_at varchar(500),
+                sale_date datetime
+                )
+
+and im going to add some customers
+insert into artwork_customers(customer_id, customer_email, customer_city, customer_country, customer_age)
+                              values(1,'email1@gmail.com','monteal','canada', 23),
+                                    (2,'eastperfuemmakersfakeemail@gmail.com','quebic','canada', 21),
+                                    (3,'email3@gmail.com','monteal','canada', 56),
+                                    (4,'email4@gmail.com','monteal','canada', 29),
+                                    (5,'email5@gmail.com','monteal','canada', 18)
+
+now i'll add some sales
+
+to know which artwork were sold ill do the next
+select * from artwork where artwork_sold_status = 'y'
+both artworm_id 1 and 4 were sold
+
+since both artwork were sold to the same customer :) which is customer_id is 2
+insert into artwork_sales(sale_id, customer_id, artwork_id, sale_took_place_at, sale_date, sold_for)
+                    values(1, 2, 4,'carassauga bazar', 'may 28 2023 13:22:15', 80),
+			(2, 2, 1, carassauga bazar', 'may 28 2023 13:22:15', 70)
+
+
+
+now lets do the joooooin
+join and inner join give the same result
+select * from artwork join artwork_sales on artwork.artwork_id = artwork_sales.artwork_id  
+select * from artwork inner join artwork_sales on artwork.artwork_id = artwork_sales.artwork_id
+
+now i want only the id's and the original, sold forprices of the sales that happend
+select artwork.artwork_title as 'Artwork Title', artwork.artwork_price as 'Original Price', artwork_sales.sale_id, artwork_sales.sold_for as 'Sold For Price' from artwork join artwork_sales on artwork.artwork_id =  artwork_sales.artwork_id  
+
+now we use same command to make a full outerjoin or left outer join or right outer join , we just change the join command into what we want
+select artwork.artwork_title as 'Artwork Title', artwork.artwork_price as 'Original Price', artwork_sales.sale_id, artwork_sales.sold_for as 'Sold For Price' from artwork full outer join artwork_sales on artwork.artwork_id =  artwork_sales.artwork_id    
+
+
+
+there is another way called implecet join --- it does the inner join
+select s.sold_for, a.artwork_price, a.artwork_title from artwork_sales as s , artwork as a where s.artwork_id = a.artwork_id            
